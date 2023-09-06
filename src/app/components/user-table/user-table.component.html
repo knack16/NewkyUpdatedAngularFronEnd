@@ -1,0 +1,46 @@
+<div class="container mt-4">
+    <h2>User Table</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Current Grade ID</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index">
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phoneNumber }}</td>
+          <td>
+            <!-- Check if the user is currently being edited -->
+            <ng-container *ngIf="!user.isEditing; else editField">
+              {{ user.currentGradeId }}
+            </ng-container>
+            <ng-template #editField>
+              <input
+                type="number"
+                (ngModel)="user.currentGradeId"
+                disabled="user.isEditing"
+              />
+            </ng-template>
+          </td>
+          <td>
+            <button class="btn btn-primary btn-sm" (click)="editUser(user)">
+              {{ user.isEditing ? 'Save' : 'Edit' }}
+            </button>
+            <button class="btn btn-danger btn-sm" (click)="deleteUser(i)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="btn btn-success" (click)="addUser()" routerLink="/add-user">Add User</button>
+  </div>
+  
